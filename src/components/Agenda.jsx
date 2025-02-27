@@ -3,11 +3,13 @@ import { useSelector } from "react-redux"
 import { AddContactForm } from "./AddContactForm"
 import { ContactList } from "./ContactList"
 
-import { selectUsers } from "../redux/contactSlice"
+
 import { ContactCards } from "./ContactCards"
 
+import { selectContacts } from "../redux/contactSlice"
+
 export const Agenda = () => {    
-    const contacts  = useSelector(selectUsers);
+    const contacts  = useSelector(selectContacts);
     const por_llamar = contacts.filter((contact) => contact.isCalled == false)
     
   return (

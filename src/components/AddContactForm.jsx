@@ -1,36 +1,23 @@
 import { useDispatch } from "react-redux";
-import { setContact } from "../redux/contactSlice";
-import { useState } from "react";
+import { setContacts } from "../redux/contactSlice";
+import { setCurrentContact } from "../redux/contactSlice";
 
 export const AddContactForm = () => {
-  const initialValue = {
-    name: "",
-    phone: "",
-    email: "",
-  };
-  const [user, setUser] = useState(initialValue);
-  const dispatch = useDispatch();
 
+
+    const dispatch = useDispatch();
+   
+  
   const handleFormSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault();      
+    dispatch(setContacts());   
 
-    console.log(user);
-
-    const isCalled = false;
-    const userData = { ...user, isCalled };
-
-    dispatch(setContact(userData));
-
-    setUser(initialValue);
+    
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
-    setUser((user) => ({
-      ...user,
-      [name]: value,
-    }));
+    dispatch(setCurrentContact({name,value}))   
   };
 
   return (
@@ -45,8 +32,7 @@ export const AddContactForm = () => {
           <input
             type="text"
             name="name"
-            id="name"
-            value={user.name}
+            id="name"            
             onChange={(e) => handleInputChange(e)}
             required
           />
@@ -56,8 +42,7 @@ export const AddContactForm = () => {
           <input
             type="text"
             name="phone"
-            id="phone"
-            value={user.phone}
+            id="phone"          
             onChange={(e) => handleInputChange(e)}
             required
           />
@@ -67,8 +52,7 @@ export const AddContactForm = () => {
           <input
             type="email"
             name="email"
-            id="email"
-            value={user.email}
+            id="email"            
             onChange={(e) => handleInputChange(e)}
             required
           />

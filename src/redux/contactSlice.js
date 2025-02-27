@@ -1,25 +1,35 @@
 import { createSlice } from "@reduxjs/toolkit";
 import defaultContacts from '../data/contacts'
-import { act } from "react";
+
 
 
 
 const contactSlice = createSlice({
     name: 'contact',
     initialState: {
-        users: defaultContacts,
+        contacts: defaultContacts,
         contador: 0,
-        currentContact: 0,
+        currentContactId: 0,
+        currenContact:{
+            name:'',
+            phone:'',
+            email:'',
+            isCalled:false
+        }
+
     },
     reducers: {
-        setContact(state, action) {
 
-            state.users.push(action.payload);
+        setCurrentContact(state,action){        
+            state.currenContact = {...state.currenContact, [action.payload.name]: action.payload.value}            
+        },
+        setContacts(state, action) {
+            state.contacts.push(state.currenContact);        
         },
         setIsCalled(state, action) {
 
             //buscar al usuario con id
-            const users = state.users.map((user, index) => {
+            const users = state.contacts.map((user, index) => {
                 if (index === action.payload) {
                     user.isCalled = !user.isCalled;                    
                 }
@@ -27,7 +37,7 @@ const contactSlice = createSlice({
                 return user
             });
 
-            state.users = users         
+            state.contacts = users         
 
             
 
@@ -40,14 +50,14 @@ const contactSlice = createSlice({
        
             //Selecciona el proximo contacto
             if(action.payload == 'next'){
-                if(state.currentContact == state.users.length -1) return;
-                state.currentContact += 1
+                if(state.currentContactId == state.contacts.length -1) return;
+                state.currentContactId += 1
             }
             if(action.payload == 'prev'){
-                if(state.currentContact ==0) return;
-                state.currentContact -= 1
+                if(state.currentContactId ==0) return;
+                state.currentContactId -= 1
             }
-            const currenContact = state.users[state.currentContact];
+            const currenContact = state.contacts[state.currentContactId];
             console.log(currenContact)
 
         }
@@ -55,11 +65,14 @@ const contactSlice = createSlice({
 });
 
 /* Selects */
-export const selectUsers = (state) => state.contact.users;
+export const selectContacts = (state) => state.contact.contacts;
 export const selectPagina = (state) => state.contact.pagina;
+export const selectCurrentContactId = (state) => state.contact.currentContactId;
 export const selectCurrentContact = (state) => state.contact.currentContact;
+
+
 /*ACttiopns que qquiero que mis componentes despachen */
-export const { setContact, setIsCalled,selectContact } = contactSlice.actions
+export const { setContacts, setIsCalled,selectContact,setCurrentContact } = contactSlice.actions
 
 /* el propio slice como db para confiogurar el store */
 export default contactSlice.reducer;

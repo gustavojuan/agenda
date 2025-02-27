@@ -1,13 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
-import { selectUsers } from "../redux/contactSlice";
+
 
 import './ContactList.css';
 import { setIsCalled } from "../redux/contactSlice";
+import { selectContacts } from "../redux/contactSlice";
 
 export const ContactList = () => {
 
 const dispatch = useDispatch();
-  const contacts = useSelector(selectUsers);
+  const contacts = useSelector(selectContacts);
 
   const handleOnClick = (index)  =>  {
     //despachar la accion que cambie el valor de state.contacts.id.isCalled
