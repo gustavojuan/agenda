@@ -1,48 +1,81 @@
 import { useDispatch } from "react-redux";
 import { setContact } from "../redux/contactSlice";
-
+import { useState } from "react";
 
 export const AddContactForm = () => {
-    const dispatch = useDispatch();
+  const initialValue = {
+    name: "",
+    phone: "",
+    email: "",
+  };
+  const [user, setUser] = useState(initialValue);
+  const dispatch = useDispatch();
 
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
 
-    const handleFormSubmit = (e)=>{
-        e.preventDefault();
-        const name = 'gustavo';
-        const phone = '+34654a6';
-        const email = 'asdasdad';
-        const isCalled = false;
+    console.log(user);
 
-        const user = {
-            name,
-            phone,
-            email,
-            isCalled
-        }
-        dispatch(setContact(user))       
-        
-    }
+    const isCalled = false;
+    const userData = { ...user, isCalled };
 
+    dispatch(setContact(userData));
 
+    setUser(initialValue);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    setUser((user) => ({
+      ...user,
+      [name]: value,
+    }));
+  };
 
   return (
     <>
-    <form>
+      <form
+        onSubmit={(e) => {
+          handleFormSubmit(e);
+        }}
+      >
         <div>
-            <label htmlFor="name">Nombre:</label>
-            <input type="text" name="name" id="name" />
+          <label htmlFor="name">Nombre:</label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            value={user.name}
+            onChange={(e) => handleInputChange(e)}
+            required
+          />
         </div>
         <div>
-            <label htmlFor="phone">phone:</label>
-            <input type="text" name="phone" id="phone" />
+          <label htmlFor="phone">phone:</label>
+          <input
+            type="text"
+            name="phone"
+            id="phone"
+            value={user.phone}
+            onChange={(e) => handleInputChange(e)}
+            required
+          />
         </div>
         <div>
-            <label htmlFor="email">email:</label>
-            <input type="email" name="email" id="email" />
+          <label htmlFor="email">email:</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            value={user.email}
+            onChange={(e) => handleInputChange(e)}
+            required
+          />
         </div>
 
-        <button type="submit" onClick={(e)=>{handleFormSubmit(e)}}>Añadir contacto</button>
-    </form>
+        <button type="submit">Añadir contacto</button>
+      </form>
     </>
-  )
-}
+  );
+};
