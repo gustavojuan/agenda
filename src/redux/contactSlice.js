@@ -1,9 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import defaultContacts from '../data/contacts'
 
-
-
-
 const contactSlice = createSlice({
     name: 'contact',
     initialState: {
